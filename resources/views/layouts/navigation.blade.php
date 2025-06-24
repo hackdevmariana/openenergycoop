@@ -60,7 +60,13 @@
                     <a href="{{ route('register') }}" class="text-sm text-gray-700 hover:text-gray-900">Registrarse</a>
                 </div>
             @endguest
-
+            <form method="POST" action="{{ route('theme.toggle') }}" class="ms-3">
+                @csrf
+                <button type="submit" class="text-sm text-gray-700 hover:text-gray-900">
+                    {{ session('theme') === 'dark' ? '☀️' : '🌙' }}
+                </button>
+            </form>
+            
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none transition ease-in-out duration-150">

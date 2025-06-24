@@ -17,4 +17,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+
+
+Route::post('/theme-toggle', function () {
+    $new = session('theme', 'light') === 'dark' ? 'light' : 'dark';
+    session(['theme' => $new]);
+    return back();
+})->name('theme.toggle');

@@ -4,9 +4,14 @@ body {
     font-family: var(--font-primary);
 }
 
-[data-theme="dark"] body {
+html.dark body {
     background-color: var(--dark-bg);
     color: var(--dark-text);
+}
+
+html.light body {
+    background-color: var(--light-bg);
+    color: var(--light-text);
 }
 
 a {
