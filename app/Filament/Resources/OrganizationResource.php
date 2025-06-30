@@ -23,7 +23,49 @@ class OrganizationResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+
+                Forms\Components\TextInput::make('slug')
+                    ->required()
+                    ->maxLength(255),
+
+                Forms\Components\FileUpload::make('logo')
+                    ->image()
+                    ->directory('organizations/logos')
+                    ->nullable(),
+
+                Forms\Components\TextInput::make('domain')
+                    ->required()
+                    ->maxLength(255),
+
+                Forms\Components\TextInput::make('contact_email')
+                    ->email()
+                    ->nullable(),
+
+                Forms\Components\TextInput::make('contact_phone')
+                    ->tel()
+                    ->nullable(),
+
+                Forms\Components\TextInput::make('primary_color')
+                    ->label('Primary Color')
+                    ->nullable()
+                    ->maxLength(7)
+                    ->hint('Formato hex, ej. #ff0000'),
+
+                Forms\Components\TextInput::make('secondary_color')
+                    ->label('Secondary Color')
+                    ->nullable()
+                    ->maxLength(7)
+                    ->hint('Formato hex, ej. #00ff00'),
+
+                Forms\Components\Textarea::make('css_files')
+                    ->label('CSS Files (URLs)')
+                    ->nullable()
+                    ->rows(3)
+                    ->hint('URLs de archivos CSS separados por salto de línea o JSON'),
+
             ]);
     }
 
@@ -31,18 +73,21 @@ class OrganizationResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('id')->sortable(),
+                Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('slug')->sortable(),
+                Tables\Columns\TextColumn::make('domain')->sortable(),
+                Tables\Columns\TextColumn::make('contact_email')->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
