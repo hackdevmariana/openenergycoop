@@ -43,17 +43,15 @@ class AppSettingResource extends Resource
                     ->maxLength(255)
                     ->nullable(),
 
-                Forms\Components\TextInput::make('primary_color')
+                Forms\Components\ColorPicker::make('primary_color')
                     ->label('Color primario')
                     ->default('#0055aa')
-                    ->maxLength(7)
-                    ->nullable(),
+                    ->required(),
 
-                Forms\Components\TextInput::make('secondary_color')
+                Forms\Components\ColorPicker::make('secondary_color')
                     ->label('Color secundario')
                     ->default('#00aa55')
-                    ->maxLength(7)
-                    ->nullable(),
+                    ->required(),
 
                 Forms\Components\Select::make('locale')
                     ->label('Idioma')
