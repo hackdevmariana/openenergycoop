@@ -48,17 +48,16 @@ class OrganizationResource extends Resource
                     ->tel()
                     ->nullable(),
 
-                Forms\Components\TextInput::make('primary_color')
+                Forms\Components\ColorPicker::make('primary_color')
                     ->label('Primary Color')
                     ->nullable()
-                    ->maxLength(7)
                     ->hint('Formato hex, ej. #ff0000'),
 
-                Forms\Components\TextInput::make('secondary_color')
+                Forms\Components\ColorPicker::make('secondary_color')
                     ->label('Secondary Color')
                     ->nullable()
-                    ->maxLength(7)
                     ->hint('Formato hex, ej. #00ff00'),
+
 
                 Forms\Components\Textarea::make('css_files')
                     ->label('CSS Files (URLs)')
