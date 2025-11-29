@@ -1,14 +1,19 @@
 {
-  "name": "openenergycoop"
+  "name": "openenergycoop",
   "private": true,
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Monorepo Open Energy Coop – NestJS + Nuxt 3 + Expo",
+  "license": "AGPL-3.0-or-later",
+  "packageManager": "pnpm@10.24.0",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.24.0"
+    "dev": "pnpm -r dev",
+    "dev:api": "pnpm --filter api dev",
+    "dev:web": "pnpm --filter web dev",
+    "dev:mobile": "pnpm --filter mobile start",
+    "db:studio": "pnpm --filter api prisma studio",
+    "db:migrate": "pnpm --filter api prisma migrate dev",
+    "db:reset": "pnpm --filter api prisma migrate reset",
+    "compose:up": "docker compose up -d",
+    "compose:down": "docker compose down -v"
+  }
 }
