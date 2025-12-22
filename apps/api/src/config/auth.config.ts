@@ -1,6 +1,6 @@
 export const authConfig = {
-  jwtSecret: '***REMOVED***',
-  jwtExpiresIn: 900, // 15 minutos en segundos
-  refreshSecret: '***REMOVED***',
-  refreshExpiresIn: 604800, // 7 días en segundos
+  jwtSecret: 'tu-secret-super-largo-y-unico-generado-ahora-2025-1234567890',
+  jwtExpiresIn: 900,
+  refreshSecret: 'tu-refresh-secret-muy-largo-y-diferente-2025-abcdef',
+  refreshExpiresIn: 604800,
 };

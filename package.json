@@ -15,5 +15,8 @@
     "db:reset": "pnpm --filter api prisma migrate reset",
     "compose:up": "docker compose up -d",
     "compose:down": "docker compose down -v"
+  },
+  "prisma": {
+    "schema": "apps/api/prisma/schema.prisma"
   }
 }
