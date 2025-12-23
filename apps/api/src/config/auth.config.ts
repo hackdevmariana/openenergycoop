@@ -1,6 +1,8 @@
+import 'dotenv/config';
+
 export const authConfig = {
-  jwtSecret: 'tu-secret-super-largo-y-unico-generado-ahora-2025-1234567890',
+  jwtSecret: process.env.JWT_SECRET || 'dev-secret-fallback',
   jwtExpiresIn: 900,
-  refreshSecret: 'tu-refresh-secret-muy-largo-y-diferente-2025-abcdef',
+  refreshSecret: process.env.REFRESH_SECRET || 'dev-refresh-fallback',
   refreshExpiresIn: 604800,
 };
