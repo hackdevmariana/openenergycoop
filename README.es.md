@@ -39,3 +39,13 @@ URLs:
 - Web: http://localhost:3001
 - Mobile: Expo (escanea QR o abre en Expo Go)
 - Prisma Studio: pnpm --filter api prisma studio
+
+## Desarollo 
+
+```bash
+pnpm dev:api     # Solo backend
+pnpm dev:web     # Solo Nuxt
+pnpm dev:mobile  # Solo Expo
+pnpm db:down     # Para la DB + Redis
+```
+
