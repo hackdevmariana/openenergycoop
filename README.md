@@ -20,8 +20,8 @@ Perfect for SaaS, cooperatives, dashboards, apps with web + mobile.
 ## Quick Start
 
 ```bash
-git clone https://github.com/your-username/your-boilerplate-repo.git
-cd your-boilerplate-repo
+git clone https://github.com/hackdevmariana/openenergycoop.git
+cd openenergycoop
 
 # Use Node 22
 nvm use 22
@@ -31,5 +31,4 @@ pnpm install
 
 # Start all services (DB + Redis + API + Web + Mobile)
 pnpm start
-'
-;
+
