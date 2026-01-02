@@ -48,3 +48,11 @@ pnpm dev:web     # Nuxt only
 pnpm dev:mobile  # Expo only
 pnpm db:down     # Stop DB + Redis
 ```
+
+## Database
+
+Migrations with Prisma:
+
+```bash
+pnpm --filter api prisma migrate dev
+```
