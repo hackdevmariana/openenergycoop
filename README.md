@@ -31,4 +31,11 @@ pnpm install
 
 # Start all services (DB + Redis + API + Web + Mobile)
 pnpm start
+```
 
+URLs:
+
+- API: http://localhost:3000
+- Web: http://localhost:3001
+- Mobile: Expo (scan QR or open in Expo Go)
+- Prisma Studio: pnpm --filter api prisma studio
