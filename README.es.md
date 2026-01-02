@@ -49,3 +49,18 @@ pnpm dev:mobile  # Solo Expo
 pnpm db:down     # Para la DB + Redis
 ```
 
+## Base de datos
+
+Migraciones con Prisma:
+
+```bash
+pnpm --filter api prisma migrate dev
+```
+
+## Contribuir
+
+¡Abre issues o PRs cuando quieras!
+
+## Licencia
+
+Licencia GPL V.3.0
