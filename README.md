@@ -56,3 +56,11 @@ Migrations with Prisma:
 ```bash
 pnpm --filter api prisma migrate dev
 ```
+
+## Contributing
+
+Feel free to open issues or PRs!
+
+## License
+
+GPL V3.0
