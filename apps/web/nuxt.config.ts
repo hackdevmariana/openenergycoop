@@ -9,10 +9,11 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/color-mode',
   ],
-  colorMode: {
+colorMode: {
     preference: 'system',
     fallback: 'light',
-    classSuffix: ''
+    classSuffix: '',
+    dataValue: 'class'
   }
 })
 
