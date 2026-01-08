@@ -6,6 +6,11 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  modules: [
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/color-mode',
+    '@pinia/nuxt',
+  ],
   plugins: [
     '~/plugins/dark-mode.client.ts'
   ]
