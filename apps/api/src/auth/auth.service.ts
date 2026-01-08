@@ -2,7 +2,6 @@ import { Injectable, BadRequestException, UnauthorizedException } from '@nestjs/
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { authConfig } from '../config/auth.config';
 
 export interface AuthTokens {
   accessToken: string;
@@ -26,14 +25,7 @@ export class AuthService {
       data: { email, password: hashed, name },
     });
 
-    const accessToken = this.jwtService.sign({ sub: user.id, email });
-
-    const refreshToken = this.jwtService.sign(
-      { sub: user.id },
-      { secret: authConfig.refreshSecret, expiresIn: authConfig.refreshExpiresIn },
-    );
-
-    return { accessToken, refreshToken };
+    return this.generateTokens(user.id, email);
   }
 
   async login(email: string, password: string): Promise<AuthTokens> {
@@ -42,34 +34,32 @@ export class AuthService {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
-    const accessToken = this.jwtService.sign({ sub: user.id, email });
-
-    const refreshToken = this.jwtService.sign(
-      { sub: user.id },
-      { secret: authConfig.refreshSecret, expiresIn: authConfig.refreshExpiresIn },
-    );
-
-    return { accessToken, refreshToken };
+    return this.generateTokens(user.id, email);
   }
 
   async refreshToken(refreshToken: string): Promise<AuthTokens> {
     try {
-      const payload = this.jwtService.verify(refreshToken, {
-        secret: authConfig.refreshSecret,
-      });
+      const payload = this.jwtService.verify(refreshToken);
       const user = await this.prisma.user.findUnique({ where: { id: payload.sub } });
       if (!user) throw new UnauthorizedException();
 
-      const accessToken = this.jwtService.sign({ sub: user.id, email: user.email });
-
-      const newRefreshToken = this.jwtService.sign(
-        { sub: user.id },
-        { secret: authConfig.refreshSecret, expiresIn: authConfig.refreshExpiresIn },
-      );
-
-      return { accessToken, refreshToken: newRefreshToken };
+      return this.generateTokens(user.id, user.email);
     } catch {
       throw new UnauthorizedException('Refresh token inválido');
     }
+  }
+
+  private generateTokens(userId: string, email: string): AuthTokens {
+    const accessToken = this.jwtService.sign(
+      { sub: userId, email },
+      { expiresIn: '15m' },
+    );
+
+    const refreshToken = this.jwtService.sign(
+      { sub: userId },
+      { expiresIn: '7d' },
+    );
+
+    return { accessToken, refreshToken };
   }
 }
