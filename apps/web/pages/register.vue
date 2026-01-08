@@ -1,61 +1,79 @@
 <template>
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-500">
+  <div v-if="!auth.isAuthenticated" class="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center py-12 px-4">
     <div class="max-w-md w-full space-y-8">
       <div class="text-center">
         <div class="bg-primary-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
           <span class="text-white font-bold text-3xl">B</span>
         </div>
-        <h2 class="text-4xl font-bold text-gray-900 dark:text-white">Crea tu cuenta</h2>
-        <p class="mt-2 text-gray-600 dark:text-gray-400">Únete al boilerplate más potente</p>
+        <h2 class="text-4xl font-bold text-gray-900 dark:text-white">Crear cuenta</h2>
       </div>
 
-      <form class="mt-8 space-y-5" @submit.prevent="submitRegister">
+      <form class="mt-8 space-y-6" @submit.prevent="register">
         <div>
-          <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre completo</label>
-          <input id="name" name="name" type="text" autocomplete="name" required
-                 class="mt-1 appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                 placeholder="Juan Pérez" />
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre</label>
+          <input v-model="name" type="text" required class="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+          <input v-model="email" type="email" required class="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Contraseña</label>
+          <input v-model="password" type="password" required class="mt-1 block w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white" />
         </div>
 
-        <div>
-          <label for="email-reg" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
-          <input id="email-reg" name="email" type="email" autocomplete="email" required
-                 class="mt-1 appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                 placeholder="tu@email.com" />
-        </div>
-
-        <div>
-          <label for="password-reg" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Contraseña</label>
-          <input id="password-reg" name="password" type="password" autocomplete="new-password" required
-                 class="mt-1 appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                 placeholder="••••••••" />
-        </div>
-
-        <div>
-          <label for="confirm-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Confirmar contraseña</label>
-          <input id="confirm-password" name="confirm-password" type="password" autocomplete="new-password" required
-                 class="mt-1 appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                 placeholder="••••••••" />
-        </div>
-
-        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition">
-          Crear cuenta
+        <button type="submit" class="w-full py-3 px-4 bg-primary-600 text-white rounded-lg font-bold hover:bg-primary-700 transition">
+          Registrar
         </button>
 
         <p class="text-center text-sm text-gray-600 dark:text-gray-400">
-          ¿Ya tienes cuenta?
-          <NuxtLink to="/login" class="font-medium text-primary-600 hover:text-primary-500">
-            Inicia sesión aquí
-          </NuxtLink>
+          ¿Ya tienes cuenta? <NuxtLink to="/login" class="text-primary-600 hover:text-primary-500 font-medium">Inicia sesión</NuxtLink>
         </p>
       </form>
+    </div>
+  </div>
+
+  <div v-else class="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+    <div class="text-center">
+      <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+        Ya tienes una cuenta activa ({{ auth.user?.name || auth.user?.email }})
+      </h2>
+      <p class="text-gray-600 dark:text-gray-400 mb-8">
+        Serás redirigido al dashboard...
+      </p>
+      <button @click="router.push('/dashboard')" class="px-8 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-medium">
+        Ir al Dashboard
+      </button>
     </div>
   </div>
 </template>
 
 <script setup>
-const submitRegister = () => {
-  // Aquí iría la llamada a la API NestJS (lo hacemos después)
-  alert('Registro simulado — ¡próximamente conectado al backend!')
+const name = ref('')
+const email = ref('')
+const password = ref('')
+
+const auth = useAuthStore()
+const router = useRouter()
+
+onMounted(() => {
+  auth.loadFromStorage()
+  if (auth.isAuthenticated) {
+    router.push('/dashboard')
+  }
+})
+
+const register = async () => {
+  try {
+    const response = await $fetch('http://localhost:3000/auth/register', {
+      method: 'POST',
+      body: { name: name.value, email: email.value, password: password.value }
+    })
+
+    auth.setToken(response.accessToken, { name: name.value })
+    router.push('/dashboard')
+  } catch (err) {
+    alert('Error al registrar: ' + (err.data?.message || err.message || 'Intenta otro email'))
+  }
 }
 </script>

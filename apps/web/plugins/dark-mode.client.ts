@@ -1,37 +1,31 @@
 export default defineNuxtPlugin(() => {
   if (process.client) {
-    const getPreferredMode = () => {
-      const saved = localStorage.getItem('dark-mode')
-      if (saved !== null) {
-        return saved === 'true'
-      }
-      return window.matchMedia('(prefers-color-scheme: dark)').matches
-    }
+    const getPreferred = () => {
+      const saved = localStorage.getItem('dark-mode');
+      if (saved !== null) return saved === 'true';
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    };
 
-    const setDarkMode = (isDark: boolean) => {
+    const setDark = (isDark) => {
       if (isDark) {
-        document.documentElement.classList.add('dark')
-        localStorage.setItem('dark-mode', 'true')
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('dark-mode', 'true');
       } else {
-        document.documentElement.classList.remove('dark')
-        localStorage.setItem('dark-mode', 'false')
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('dark-mode', 'false');
       }
-    }
+    };
 
-    // Aplicar modo inicial
-    setDarkMode(getPreferredMode())
+    setDark(getPreferred());
 
-    // Toggle global
     window.toggleDarkMode = () => {
-      const current = getPreferredMode()
-      setDarkMode(!current)
-    }
+      setDark(!getPreferred());
+    };
 
-    // Escuchar cambios del sistema
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      if (localStorage.getItem('dark-mode') === null) { // solo si no hay preferencia guardada
-        setDarkMode(e.matches)
+      if (localStorage.getItem('dark-mode') === null) {
+        setDark(e.matches);
       }
-    })
+    });
   }
 })

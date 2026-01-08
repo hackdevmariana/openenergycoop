@@ -51,10 +51,26 @@ pnpm db:down     # Para la DB + Redis
 
 ## Base de datos
 
-Migraciones con Prisma:
+1. Instala PostgreSQL en tu máquina (o usa Docker).
+
+2. Crea una base de datos vacía:
+
+```bash
+sudo -u postgres createdb openenergycoop
+```
+
+3. Copia el .env.example a .env y configura:
+
+``ènv 
+DATABASE_URL="postgresql://postgres:TU_CONTRASEÑA@localhost:5432/openenergycoop?schema=public"
+```
+
+4. Ejecuta las migraciones con Prisma:
 
 ```bash
 pnpm --filter api prisma migrate dev
+pnpm --filter api prisma migrate deploy
+pnpm --filter api prisma generate
 ```
 
 ## Contribuir

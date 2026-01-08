@@ -1,3 +1,4 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+@source "./**/*.{vue,js,ts,jsx,tsx}";
+@source "../../node_modules/@nuxt/ui/dist/runtime/components/**/*.{vue,mjs}";
