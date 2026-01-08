@@ -13,6 +13,7 @@
     "@nuxt/ui": "^4.3.0",
     "@pinia/nuxt": "^0.11.3",
     "@tailwindcss/vite": "^4.1.18",
+    "cors": "^2.8.5",
     "nuxt": "^4.2.2",
     "nuxt-icon": "1.0.0-beta.7",
     "pinia": "^3.0.4",
