@@ -2,6 +2,7 @@ import { Injectable, BadRequestException, UnauthorizedException } from '@nestjs/
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '@prisma/client';
 
 export interface AuthTokens {
   accessToken: string;
@@ -22,10 +23,15 @@ export class AuthService {
     const hashed = await bcrypt.hash(password, 10);
 
     const user = await this.prisma.user.create({
-      data: { email, password: hashed, name },
+      data: { 
+        email, 
+        password: hashed, 
+        name,
+        role: 'USER'  // default explícito
+      },
     });
 
-    return this.generateTokens(user.id, email);
+    return this.generateTokens(user);
   }
 
   async login(email: string, password: string): Promise<AuthTokens> {
@@ -34,7 +40,7 @@ export class AuthService {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
-    return this.generateTokens(user.id, email);
+    return this.generateTokens(user);
   }
 
   async refreshToken(refreshToken: string): Promise<AuthTokens> {
@@ -43,20 +49,20 @@ export class AuthService {
       const user = await this.prisma.user.findUnique({ where: { id: payload.sub } });
       if (!user) throw new UnauthorizedException();
 
-      return this.generateTokens(user.id, user.email);
+      return this.generateTokens(user);
     } catch {
       throw new UnauthorizedException('Refresh token inválido');
     }
   }
 
-  private generateTokens(userId: string, email: string): AuthTokens {
+  private generateTokens(user: User): AuthTokens {
     const accessToken = this.jwtService.sign(
-      { sub: userId, email },
+      { sub: user.id, email: user.email, role: user.role },
       { expiresIn: '15m' },
     );
 
     const refreshToken = this.jwtService.sign(
-      { sub: userId },
+      { sub: user.id, role: user.role },
       { expiresIn: '7d' },
     );
 
