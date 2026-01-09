@@ -6,7 +6,6 @@ datasource db {
   provider = "postgresql"
 }
 
-
 model Organization {
   id          String   @id @default(cuid())
   name        String
@@ -39,20 +38,28 @@ enum OrganizationRole {
   MEMBER
 }
 
-
 model User {
-  id String @id @default(cuid())
-  email String @unique
-  password String
-  name String?
-  avatar String?
-  emailVerified Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String   @id @default(cuid())
+  email         String   @unique
+  password      String
+  name          String?
+  avatar        String?
+  emailVerified Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
   // Relaciones
-  memberships OrganizationMember[]
-  configUpdates Config[] @relation("ConfigUpdatedBy")  // <-- AÑADE ESTA LÍNEA
+  memberships   OrganizationMember[]
+  configUpdates Config[]         @relation("ConfigUpdatedBy")
+
+  role          Role             @default(USER)  // ¡AÑADIDO! Campo role con default USER
+
   @@map("users")
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 model Config {
@@ -60,9 +67,9 @@ model Config {
   key         String   @unique
   value       String
   updatedAt   DateTime @updatedAt
-  updatedBy   User?    @relation("ConfigUpdatedBy", fields: [updatedById], references: [id])  // <-- AÑADE EL NOMBRE "ConfigUpdatedBy"
+
+  updatedBy   User?    @relation("ConfigUpdatedBy", fields: [updatedById], references: [id])
   updatedById String?
 
   @@map("config")
 }
-
